@@ -73,6 +73,11 @@ namespace UsdQuotation.Services
             var buy = usdToday.GetElementsByTagName("td").ElementAtOrDefault(1);
             var sale = usdToday.GetElementsByTagName("td").ElementAtOrDefault(2);
             var date = usdToday.GetElementsByTagName("td").ElementAtOrDefault(3);
+            if (buy == null || sale == null)
+            {
+                await _slackHooksService.SendNotification(_httpClient);
+                return null;
+            }
 
             if (buy != null && sale != null && date != null)
                 return new Usd
