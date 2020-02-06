@@ -44,7 +44,7 @@ namespace UsdQuotation.Services
             var parser = new HtmlParser();
             var document = parser.ParseDocument(htmlPage);
 
-            if (!document.GetElementsByTagName("tr").ElementAt(1).GetElementsByTagName("td").ElementAt(0).InnerHtml.Equals(_bnaSettings.Validation))
+            if (!document.GetElementsByTagName("tr").ElementAt(1).GetElementsByTagName("td").ElementAt(0).InnerHtml.Equals(_bnaSettings.ValidationHtml))
                 return null;
 
             var usdToday = document.GetElementsByTagName("tr").LastOrDefault();
