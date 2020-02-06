@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AngleSharp.Html.Parser;
 
@@ -40,12 +39,12 @@ namespace UsdQuotation.Services
             return GetDataFromHtml(htmlPage);
         }
 
-        private static Usd GetDataFromHtml(string htmlPage)
+        private Usd GetDataFromHtml(string htmlPage)
         {
             var parser = new HtmlParser();
             var document = parser.ParseDocument(htmlPage);
 
-            if (!document.GetElementsByTagName("tr").ElementAt(1).GetElementsByTagName("td").ElementAt(0).InnerHtml.Equals("Dolar U.S.A"))
+            if (!document.GetElementsByTagName("tr").ElementAt(1).GetElementsByTagName("td").ElementAt(0).InnerHtml.Equals(_bnaSettings.Validation))
                 return null;
 
             var usdToday = document.GetElementsByTagName("tr").LastOrDefault();

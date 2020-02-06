@@ -65,7 +65,8 @@ namespace UsdQuotation.Test
                 }, 
                 new BnaSettings
                 {
-                    EndPoint = "https://bna.com.ar/Cotizador/HistoricoPrincipales?id=billetes"
+                    EndPoint = "https://bna.com.ar/Cotizador/HistoricoPrincipales?id=billetes",
+                    Validation = "Dolar U.S.A"
                 });
 
             var result = await service.GetUsdToday();
