@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AngleSharp.Html.Parser;
+using CrossCutting.SlackHooksService;
 
 namespace UsdQuotation.Services
 {
@@ -10,13 +11,16 @@ namespace UsdQuotation.Services
     {
         private readonly HttpClient _httpClient;
         private readonly BnaSettings _bnaSettings;
+        private readonly ISlackHooksService _slackHooksService;
 
         public BnaService(IHttpClientFactory httpClientFactory,
             HttpClientPoliciesSettings bnaClientPoliciesSettings,
-            BnaSettings bnaSettings)
+            BnaSettings bnaSettings,
+            ISlackHooksService slackHooksService)
         {
             _httpClient = httpClientFactory.CreateClient(bnaClientPoliciesSettings.ClientName);
             _bnaSettings = bnaSettings;
+            _slackHooksService = slackHooksService;
         }
 
         public async Task<Usd> GetUsdToday()
@@ -36,30 +40,44 @@ namespace UsdQuotation.Services
 
             var htmlPage = await httpResponse.Content.ReadAsStringAsync();
 
-            return GetDataFromHtml(htmlPage);
+            return await GetDataFromHtmlAsync(htmlPage);
         }
 
-        private Usd GetDataFromHtml(string htmlPage)
+        private async Task<Usd> GetDataFromHtmlAsync(string htmlPage)
         {
             var parser = new HtmlParser();
             var document = parser.ParseDocument(htmlPage);
 
-            if (!document.GetElementsByTagName("tr").ElementAt(1).GetElementsByTagName("td").ElementAt(0).InnerHtml.Equals(_bnaSettings.ValidationHtml))
+            var titleValidation = document.GetElementsByTagName("tr").ElementAtOrDefault(1);
+            if (titleValidation == null ||
+                !titleValidation.GetElementsByTagName("td").ElementAtOrDefault(0).InnerHtml.Equals(_bnaSettings.ValidationHtml))
+            {
+                await _slackHooksService.SendNotification(_httpClient);
                 return null;
+            }
 
             var usdToday = document.GetElementsByTagName("tr").LastOrDefault();
 
-            if (usdToday == null) 
+            if (usdToday == null)
+            {
+                await _slackHooksService.SendNotification(_httpClient);
                 return null;
+            }
 
-            var buy = usdToday.GetElementsByTagName("td").ElementAt(1).InnerHtml;
-            var sale = usdToday.GetElementsByTagName("td").ElementAt(2).InnerHtml;
+            var buy = usdToday.GetElementsByTagName("td").ElementAtOrDefault(1);
+            var sale = usdToday.GetElementsByTagName("td").ElementAtOrDefault(2);
+
+            if (buy == null || sale == null)
+            {
+                await _slackHooksService.SendNotification(_httpClient);
+                return null;
+            }
 
             return new Usd
             {
                 Date = DateTime.Parse(usdToday.GetElementsByTagName("td").ElementAt(3).InnerHtml),
-                SaleValue = sale,
-                BuyValue = buy
+                SaleValue = sale.InnerHtml,
+                BuyValue = buy.InnerHtml
             };
         }
     }

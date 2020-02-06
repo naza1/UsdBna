@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using CrossCutting.SlackHooksService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -47,6 +48,7 @@ namespace UsdQuotation
             });
 
             services.AddTransient<IBnaService, BnaService>();
+            services.AddTransient<ISlackHooksService, SlackHooksService>();
 
             var bnaSettings = new BnaSettings();
             Configuration.GetSection("BnaService").Bind(bnaSettings);

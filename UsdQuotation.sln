@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsdQuotation", "CotizacionDolar\UsdQuotation.csproj", "{7BDCEAA2-F3DD-4715-9A22-F48096A052A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsdQuotation.Test", "DolarQuotation.Test\UsdQuotation.Test.csproj", "{486F1565-0D07-41E1-9FE3-F4EBA3C9068D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsdQuotation.Test", "DolarQuotation.Test\UsdQuotation.Test.csproj", "{486F1565-0D07-41E1-9FE3-F4EBA3C9068D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructure", "Infraestructure", "{8ECFE715-A1C0-48DE-908B-9617E124DA81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossCutting", "CrossCutting\CrossCutting.csproj", "{BA637BBE-F069-4A17-841C-00892D9EBBC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +25,16 @@ Global
 		{486F1565-0D07-41E1-9FE3-F4EBA3C9068D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{486F1565-0D07-41E1-9FE3-F4EBA3C9068D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{486F1565-0D07-41E1-9FE3-F4EBA3C9068D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA637BBE-F069-4A17-841C-00892D9EBBC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA637BBE-F069-4A17-841C-00892D9EBBC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA637BBE-F069-4A17-841C-00892D9EBBC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA637BBE-F069-4A17-841C-00892D9EBBC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BA637BBE-F069-4A17-841C-00892D9EBBC9} = {8ECFE715-A1C0-48DE-908B-9617E124DA81}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {60E86DD1-5B1E-4D6D-B0B2-BC1F8EA09716}
