@@ -1,6 +1,6 @@
 # UsdBna
 
-This App shows Usd Quotation today to Banco Nación Argentina
+This App shows Usd Quotation today if the Banco Nación Argentina
 
 # Technology
 
