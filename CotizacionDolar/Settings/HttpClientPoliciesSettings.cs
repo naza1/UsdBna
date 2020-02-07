@@ -1,4 +1,4 @@
-﻿namespace UsdQuotation
+﻿namespace UsdQuotation.Settings
 {
     public class HttpClientPoliciesSettings
     {

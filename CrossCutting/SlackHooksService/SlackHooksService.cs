@@ -13,9 +13,11 @@ namespace CrossCutting.SlackHooksService
     public class SlackHooksService : ISlackHooksService
     {
         private readonly JsonSerializerSettings _serializationSettings;
+        private readonly SlackHookSettings _slackHookSettings;
 
-        public SlackHooksService()
+        public SlackHooksService(SlackHookSettings slackHookSettings)
         {
+            _slackHookSettings = slackHookSettings;
             _serializationSettings = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
@@ -33,14 +35,12 @@ namespace CrossCutting.SlackHooksService
 
         public async Task<HttpResponseMessage> SendNotification(HttpClient httpClient)
         {
-            const string url = "https://hooks.slack.com/services/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";
-
             var payloadData = new
             {
-                text = "UsdQuotation Service can't get the USD quotation of the Bank of Nacion Argentina today, Please check Html format"
+                text = _slackHookSettings.Text
             };
 
-            var builder = new UriBuilder(url);
+            var builder = new UriBuilder(_slackHookSettings.Url);
 
             var httpRequest = new HttpRequestMessage { RequestUri = builder.Uri, Method = new HttpMethod("POST") };
 

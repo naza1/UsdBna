@@ -1,10 +1,8 @@
-using System;
-
-namespace UsdQuotation
+namespace UsdQuotation.Dtos
 {
     public class Usd
     {
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         public string SaleValue { get; set; }
         public string BuyValue { get; set; }
     }

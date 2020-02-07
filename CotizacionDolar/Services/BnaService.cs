@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AngleSharp.Html.Parser;
 using CrossCutting.SlackHooksService;
+using UsdQuotation.Dtos;
+using UsdQuotation.Settings;
 
 namespace UsdQuotation.Services
 {
@@ -82,7 +84,7 @@ namespace UsdQuotation.Services
             if (date != null)
                 return new Usd
                 {
-                    Date = DateTime.Parse(date.InnerHtml),
+                    Date = date.InnerHtml,
                     SaleValue = sale.InnerHtml,
                     BuyValue = buy.InnerHtml
                 };

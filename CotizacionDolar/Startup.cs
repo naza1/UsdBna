@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using CrossCutting;
 using CrossCutting.SlackHooksService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using Polly;
 using Polly.Extensions.Http;
 using UsdQuotation.Services;
+using UsdQuotation.Settings;
 
 namespace UsdQuotation
 {
@@ -49,6 +51,10 @@ namespace UsdQuotation
 
             services.AddTransient<IBnaService, BnaService>();
             services.AddTransient<ISlackHooksService, SlackHooksService>();
+
+            var slackHookSettings = new SlackHookSettings();
+            Configuration.GetSection("SlackHook").Bind(slackHookSettings);
+            services.AddSingleton(slackHookSettings);
 
             var bnaSettings = new BnaSettings();
             Configuration.GetSection("BnaService").Bind(bnaSettings);

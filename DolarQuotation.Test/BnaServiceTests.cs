@@ -7,6 +7,7 @@ using Moq;
 using Moq.Protected;
 using NUnit.Framework;
 using UsdQuotation.Services;
+using UsdQuotation.Settings;
 
 namespace UsdQuotation.Test
 {
@@ -73,7 +74,7 @@ namespace UsdQuotation.Test
 
             var result = await service.GetUsdToday();
 
-            Assert.AreEqual(result.Date.ToString("d"), "5/2/2020");
+            Assert.AreEqual(result.Date, "5/2/2020");
         }
 
         [Test]
@@ -126,7 +127,7 @@ namespace UsdQuotation.Test
 
             var result = await service.GetUsdToday();
 
-            Assert.AreEqual(result.Date.ToString("d"), "4/2/2020");
+            Assert.AreEqual(result.Date, "4/2/2020");
         }
 
         [Test]
@@ -162,7 +163,7 @@ namespace UsdQuotation.Test
                 },
                 slackHooksServiceMock.Object);
 
-            var result = await service.GetUsdToday();
+            await service.GetUsdToday();
 
             slackHooksServiceMock.Verify(x => x.SendNotification(It.IsAny<HttpClient>()), Times.Once);
 
@@ -213,7 +214,7 @@ namespace UsdQuotation.Test
                 },
                 slackHooksServiceMock.Object);
 
-            var result = await service.GetUsdToday();
+            await service.GetUsdToday();
 
             slackHooksServiceMock.Verify(x => x.SendNotification(It.IsAny<HttpClient>()), Times.Once);
         }
